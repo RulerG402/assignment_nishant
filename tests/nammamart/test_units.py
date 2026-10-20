@@ -9,14 +9,14 @@ from nammamart import standardise as std
 
 class TestMasking:
     def test_mask_email_keeps_two_chars_and_domain(self):
-        assert masking.mask_email("priya.hegde199@example.com") == "pr***@example.com"
+        assert masking.mask_email("test.user1@example.com") == "te***@example.com"
 
     @pytest.mark.parametrize("bad", ["N/A", "arjun.rao307example.com", "prakash@example", "", None])
     def test_mask_email_returns_none_for_invalid(self, bad):
         assert masking.mask_email(bad) is None
 
     def test_mask_phone_keeps_first_and_last_two_digits(self):
-        assert masking.mask_phone("9774349021") == "97******21"
+        assert masking.mask_phone("9000000021") == "90******21"
 
     @pytest.mark.parametrize("bad", ["996292312", "9804341", "98a4349021", None])
     def test_mask_phone_returns_none_for_invalid(self, bad):
@@ -29,11 +29,11 @@ class TestMasking:
 
     def test_mask_customers_drops_raw_pii_columns(self):
         frame = pd.DataFrame({"customer_id": ["C1"], "full_name": ["Priya Hegde"],
-                              "email": ["priya@example.com"], "phone": ["9774349021"]})
+                              "email": ["test@example.com"], "phone": ["9000000021"]})
         masked = masking.mask_customers(frame)
         assert {"full_name", "email", "phone"}.isdisjoint(masked.columns)
-        assert masked.loc[0, "email_masked"] == "pr***@example.com"
-        assert frame.loc[0, "email"] == "priya@example.com"  # input untouched
+        assert masked.loc[0, "email_masked"] == "te***@example.com"
+        assert frame.loc[0, "email"] == "test@example.com"  # input untouched
 
 
 class TestStandardise:
