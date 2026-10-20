@@ -1,0 +1,192 @@
+NammaMart evidence: results from include/warehouse_nishantdaund.duckdb
+
+====================================================================================================
+1. QUARANTINE FILE: include/quarantine/nishantdaund\orders_failed_manual__2026-10-20T15_07_10.534388_00_00.csv  (233 rows; first 10 shown)
+====================================================================================================
+ order_id            order_ts customer_id store_id product_id quantity order_status _source_file _row_num                                                    failure_reason
+ORD002255 2026-09-29 10:33:19                  S08      P0016        1    DELIVERED   orders.csv       35            orders.customer_id_not_null; orders.customer_id_exists
+ORD002225 2026-09-28 21:49:35      C00391      S09      P0117        2    DELIVERED   orders.csv       57                                       orders.product_master_clean
+ORD000894 2026-09-12 20:03:40      C00101      S01      P0060        2    DELIVERED   orders.csv       61                                       orders.product_master_clean
+ORD002103 2026-09-27 09:31:35      C00025      S03      P0093        1    DELIVERED   orders.csv       65 orders.discount_pct_in_range; orders.order_amount_matches_formula
+ORD001113 2026-09-15 09:34:03      C00102      S08      P0051        1    DELIVERED   orders.csv       76                                       orders.product_master_clean
+ORD001972 2026-09-25 16:59:53      C00015      S06      P0068        3    DELIVERED   orders.csv       78                                       orders.product_master_clean
+ORD000432 2026-09-06 21:27:58      C00247      S11      P0074        3    DELIVERED   orders.csv       82                                       orders.product_master_clean
+ORD000891 2026-09-12 19:40:50      C00271      S07      P0074        1    DELIVERED   orders.csv      108                                       orders.product_master_clean
+ORD001295 2026-09-17 15:45:14      C00268      S07      P0109        4     RETURNED   orders.csv      115                                       orders.product_master_clean
+ORD000469 2026-09-07 11:52:46      C00076      S02      P0041        0    DELIVERED   orders.csv      126                                          orders.quantity_positive
+====================================================================================================
+2. pipeline_runs (12 most recent runs, both DAGs)
+====================================================================================================
+                    dag_id                                   run_id                 start_time                   end_time  rows_extracted  rows_loaded  rows_quarantined  rows_inserted  rows_updated  status failed_step
+nammamart_etl_nishantdaund manual__2026-10-20T15:07:10.534388+00:00 2026-10-20 20:37:10.000000 2026-10-20 20:37:31.183404            5372         2315               287              0             0 success         NaN
+nammamart_elt_nishantdaund manual__2026-10-20T15:06:44.874258+00:00 2026-10-20 20:36:45.000000 2026-10-20 20:37:13.317148            5372         2315               287              0             0 success         NaN
+nammamart_elt_nishantdaund                            retry_default 2026-10-20 20:32:07.000000 2026-10-20 20:32:35.193732            5372         2315               287              0             0 success         NaN
+nammamart_etl_nishantdaund                            retry_default 2026-10-20 20:32:04.000000 2026-10-20 20:32:31.282627            5372         2315               287              0             0 success         NaN
+nammamart_elt_nishantdaund manual__2026-10-20T14:47:07.403084+00:00 2026-10-20 20:24:05.828312 2026-10-20 20:24:05.828361               0         <NA>                 0           <NA>          <NA>  failed   start_run
+nammamart_etl_nishantdaund manual__2026-10-20T14:47:25.730673+00:00 2026-10-20 20:19:31.947479 2026-10-20 20:19:31.947532               0         <NA>              <NA>           <NA>          <NA>  failed   start_run
+nammamart_elt_nishantdaund     scheduled__2026-10-20T03:30:00+00:00 2026-10-20 20:14:27.000000 2026-10-20 20:15:04.674660            5372         2315               287              0             0 success         NaN
+nammamart_etl_nishantdaund     scheduled__2026-10-20T03:30:00+00:00 2026-10-20 20:14:33.000000 2026-10-20 20:15:03.763081            5372         2315               287              0             0 success         NaN
+nammamart_elt_nishantdaund                          final_canonical 2026-10-20 19:47:02.000000 2026-10-20 19:47:31.233479            5372         2315               287              0             0 success         NaN
+nammamart_etl_nishantdaund                          final_canonical 2026-10-20 19:47:00.000000 2026-10-20 19:47:22.266537            5372         2315               287              0             0 success         NaN
+nammamart_elt_nishantdaund               exp_exp04_missing_products 2026-10-20 19:37:39.000000 2026-10-20 19:46:21.333462            5212         2179               272              0          2170 success         NaN
+nammamart_etl_nishantdaund               exp_exp04_missing_products 2026-10-20 19:37:35.000000 2026-10-20 19:42:57.890889            5212         2179               272              0          2170 success         NaN
+====================================================================================================
+3. dq_results SUMMARY: nammamart_etl_nishantdaund, run manual__2026-10-20T15:07:10.534388+00:00
+====================================================================================================
+   dimension severity  checks  pass  warn  fail  rows_failed
+    Accuracy Critical       6     0     0     6         50.0
+    Accuracy  Warning       3     0     3     0         19.0
+Completeness Critical       8     5     0     3         29.0
+Completeness  Warning       4     2     2     0          7.0
+ Consistency Critical       6     1     0     5        191.0
+ Consistency  Warning       8     1     7     0         83.0
+  Timeliness Critical       5     2     0     3         17.0
+  Timeliness  Warning       2     1     1     0          1.0
+  Uniqueness Critical       5     1     0     4         23.0
+  Uniqueness  Warning       1     0     1     0          8.0
+    Validity Critical      12     9     0     3         12.0
+    Validity  Warning       5     2     3     0         22.0
+====================================================================================================
+3b. dq_results, checks that did not pass: nammamart_etl_nishantdaund, run manual__2026-10-20T15:07:10.534388+00:00
+====================================================================================================
+                                  run_id                     dag_id                            check_name    dimension severity  rows_checked  rows_failed status                 checked_at
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund          customers.customer_id_unique   Uniqueness Critical           405            5   FAIL 2026-10-20 20:37:17.017114
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund      customers.signup_date_not_future   Timeliness Critical           405            3   FAIL 2026-10-20 20:37:17.017114
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund             orders.customer_id_exists  Consistency Critical          2572           18   FAIL 2026-10-20 20:37:21.197118
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund           orders.customer_id_not_null Completeness Critical          2572           18   FAIL 2026-10-20 20:37:21.197118
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund          orders.customer_master_clean  Consistency Critical          2572           19   FAIL 2026-10-20 20:37:21.197118
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund orders.delivered_has_delivery_minutes Completeness Critical          2572            8   FAIL 2026-10-20 20:37:21.197118
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund        orders.delivery_minutes_le_120     Accuracy Critical          2572            6   FAIL 2026-10-20 20:37:21.197118
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund          orders.discount_pct_in_range     Validity Critical          2572            3   FAIL 2026-10-20 20:37:21.197118
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund   orders.order_amount_matches_formula     Accuracy Critical          2572           18   FAIL 2026-10-20 20:37:21.197118
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund                orders.order_id_unique   Uniqueness Critical          2572           12   FAIL 2026-10-20 20:37:21.197118
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund             orders.order_status_valid     Validity Critical          2572            3   FAIL 2026-10-20 20:37:21.197118
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund            orders.order_ts_not_future   Timeliness Critical          2572            7   FAIL 2026-10-20 20:37:21.197118
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund                 orders.order_ts_valid     Validity Critical          2572            6   FAIL 2026-10-20 20:37:21.197118
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund              orders.product_id_exists  Consistency Critical          2572            9   FAIL 2026-10-20 20:37:21.197118
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund           orders.product_master_clean  Consistency Critical          2572          140   FAIL 2026-10-20 20:37:21.197118
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund              orders.quantity_positive     Accuracy Critical          2572           10   FAIL 2026-10-20 20:37:21.197118
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund                orders.store_id_exists  Consistency Critical          2572            5   FAIL 2026-10-20 20:37:21.197118
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund         payments.amount_paid_positive     Accuracy Critical          2228           10   FAIL 2026-10-20 20:37:15.100692
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund            payments.payment_id_unique   Uniqueness Critical          2228            4   FAIL 2026-10-20 20:37:15.100692
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund        payments.payment_ts_not_future   Timeliness Critical          2228            7   FAIL 2026-10-20 20:37:15.100692
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund            products.category_not_null Completeness Critical           152            3   FAIL 2026-10-20 20:37:19.026952
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund            products.cost_price_le_mrp     Accuracy Critical           152            5   FAIL 2026-10-20 20:37:19.026952
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund                 products.mrp_positive     Accuracy Critical           152            1   FAIL 2026-10-20 20:37:19.026952
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund            products.product_id_unique   Uniqueness Critical           152            2   FAIL 2026-10-20 20:37:19.026952
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund               customers.city_not_null Completeness  Warning           405            6   WARN 2026-10-20 20:37:17.017114
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund                customers.email_format     Validity  Warning           405           12   WARN 2026-10-20 20:37:17.017114
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund                customers.email_unique   Uniqueness  Warning           405            8   WARN 2026-10-20 20:37:17.017114
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund         customers.loyalty_tier_casing  Consistency  Warning           405            8   WARN 2026-10-20 20:37:17.017114
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund             customers.phone_10_digits     Validity  Warning           405            7   WARN 2026-10-20 20:37:17.017114
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund            customers.pincode_6_digits     Validity  Warning           405            3   WARN 2026-10-20 20:37:17.017114
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund orders.delivery_minutes_typical_range     Accuracy  Warning          2572            6   WARN 2026-10-20 20:37:21.197118
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund         orders.freshness_latest_order   Timeliness  Warning             1            1   WARN 2026-10-20 20:37:21.197118
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund            orders.order_status_casing  Consistency  Warning          2572            2   WARN 2026-10-20 20:37:21.197118
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund            orders.payment_mode_casing  Consistency  Warning          2572           10   WARN 2026-10-20 20:37:21.197118
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund           orders.store_daily_capacity  Consistency  Warning           462           31   WARN 2026-10-20 20:37:21.197118
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund              orders.unit_price_le_mrp     Accuracy  Warning          2572           12   WARN 2026-10-20 20:37:21.197118
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund              payments.order_id_exists  Consistency  Warning          2228            8   WARN 2026-10-20 20:37:15.100692
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund          payments.payment_mode_casing  Consistency  Warning          2228           10   WARN 2026-10-20 20:37:15.100692
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund payments.success_amount_matches_order  Consistency  Warning          2228           14   WARN 2026-10-20 20:37:15.100692
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund              stores.capacity_positive     Accuracy  Warning            15            1   WARN 2026-10-20 20:37:14.959402
+manual__2026-10-20T15:07:10.534388+00:00 nammamart_etl_nishantdaund                  stores.zone_not_null Completeness  Warning            15            1   WARN 2026-10-20 20:37:14.959402
+====================================================================================================
+3. dq_results SUMMARY: nammamart_elt_nishantdaund, run manual__2026-10-20T15:06:44.874258+00:00
+====================================================================================================
+   dimension severity  checks  pass  warn  fail  rows_failed
+    Accuracy Critical       6     0     0     6         50.0
+    Accuracy  Warning       3     0     3     0         19.0
+Completeness Critical       8     5     0     3         29.0
+Completeness  Warning       4     2     2     0          7.0
+ Consistency Critical       6     1     0     5        191.0
+ Consistency  Warning       8     1     7     0         83.0
+  Timeliness Critical       5     2     0     3         17.0
+  Timeliness  Warning       2     1     1     0          1.0
+  Uniqueness Critical       5     1     0     4         23.0
+  Uniqueness  Warning       1     0     1     0          8.0
+    Validity Critical      12     9     0     3         12.0
+    Validity  Warning       5     2     3     0         22.0
+====================================================================================================
+3b. dq_results, checks that did not pass: nammamart_elt_nishantdaund, run manual__2026-10-20T15:06:44.874258+00:00
+====================================================================================================
+                                  run_id                     dag_id                            check_name    dimension severity  rows_checked  rows_failed status                 checked_at
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund          customers.customer_id_unique   Uniqueness Critical           405            5   FAIL 2026-10-20 20:36:52.926829
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund      customers.signup_date_not_future   Timeliness Critical           405            3   FAIL 2026-10-20 20:36:52.926829
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund             orders.customer_id_exists  Consistency Critical          2572           18   FAIL 2026-10-20 20:36:59.551612
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund           orders.customer_id_not_null Completeness Critical          2572           18   FAIL 2026-10-20 20:36:59.551612
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund          orders.customer_master_clean  Consistency Critical          2572           19   FAIL 2026-10-20 20:36:59.551612
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund orders.delivered_has_delivery_minutes Completeness Critical          2572            8   FAIL 2026-10-20 20:36:59.551612
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund        orders.delivery_minutes_le_120     Accuracy Critical          2572            6   FAIL 2026-10-20 20:36:59.551612
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund          orders.discount_pct_in_range     Validity Critical          2572            3   FAIL 2026-10-20 20:36:59.551612
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund   orders.order_amount_matches_formula     Accuracy Critical          2572           18   FAIL 2026-10-20 20:36:59.551612
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund                orders.order_id_unique   Uniqueness Critical          2572           12   FAIL 2026-10-20 20:36:59.551612
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund             orders.order_status_valid     Validity Critical          2572            3   FAIL 2026-10-20 20:36:59.551612
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund            orders.order_ts_not_future   Timeliness Critical          2572            7   FAIL 2026-10-20 20:36:59.551612
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund                 orders.order_ts_valid     Validity Critical          2572            6   FAIL 2026-10-20 20:36:59.551612
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund              orders.product_id_exists  Consistency Critical          2572            9   FAIL 2026-10-20 20:36:59.551612
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund           orders.product_master_clean  Consistency Critical          2572          140   FAIL 2026-10-20 20:36:59.551612
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund              orders.quantity_positive     Accuracy Critical          2572           10   FAIL 2026-10-20 20:36:59.551612
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund                orders.store_id_exists  Consistency Critical          2572            5   FAIL 2026-10-20 20:36:59.551612
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund         payments.amount_paid_positive     Accuracy Critical          2228           10   FAIL 2026-10-20 20:37:01.486734
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund            payments.payment_id_unique   Uniqueness Critical          2228            4   FAIL 2026-10-20 20:37:01.486734
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund        payments.payment_ts_not_future   Timeliness Critical          2228            7   FAIL 2026-10-20 20:37:01.486734
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund            products.category_not_null Completeness Critical           152            3   FAIL 2026-10-20 20:36:49.701943
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund            products.cost_price_le_mrp     Accuracy Critical           152            5   FAIL 2026-10-20 20:36:49.701943
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund                 products.mrp_positive     Accuracy Critical           152            1   FAIL 2026-10-20 20:36:49.701943
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund            products.product_id_unique   Uniqueness Critical           152            2   FAIL 2026-10-20 20:36:49.701943
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund               customers.city_not_null Completeness  Warning           405            6   WARN 2026-10-20 20:36:52.926829
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund                customers.email_format     Validity  Warning           405           12   WARN 2026-10-20 20:36:52.926829
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund                customers.email_unique   Uniqueness  Warning           405            8   WARN 2026-10-20 20:36:52.926829
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund         customers.loyalty_tier_casing  Consistency  Warning           405            8   WARN 2026-10-20 20:36:52.926829
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund             customers.phone_10_digits     Validity  Warning           405            7   WARN 2026-10-20 20:36:52.926829
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund            customers.pincode_6_digits     Validity  Warning           405            3   WARN 2026-10-20 20:36:52.926829
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund orders.delivery_minutes_typical_range     Accuracy  Warning          2572            6   WARN 2026-10-20 20:36:59.551612
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund         orders.freshness_latest_order   Timeliness  Warning             1            1   WARN 2026-10-20 20:36:59.551612
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund            orders.order_status_casing  Consistency  Warning          2572            2   WARN 2026-10-20 20:36:59.551612
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund            orders.payment_mode_casing  Consistency  Warning          2572           10   WARN 2026-10-20 20:36:59.551612
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund           orders.store_daily_capacity  Consistency  Warning           462           31   WARN 2026-10-20 20:36:59.551612
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund              orders.unit_price_le_mrp     Accuracy  Warning          2572           12   WARN 2026-10-20 20:36:59.551612
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund              payments.order_id_exists  Consistency  Warning          2228            8   WARN 2026-10-20 20:37:01.486734
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund          payments.payment_mode_casing  Consistency  Warning          2228           10   WARN 2026-10-20 20:37:01.486734
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund payments.success_amount_matches_order  Consistency  Warning          2228           14   WARN 2026-10-20 20:37:01.486734
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund              stores.capacity_positive     Accuracy  Warning            15            1   WARN 2026-10-20 20:36:57.211509
+manual__2026-10-20T15:06:44.874258+00:00 nammamart_elt_nishantdaund                  stores.zone_not_null Completeness  Warning            15            1   WARN 2026-10-20 20:36:57.211509
+====================================================================================================
+4. etl_payment_reconciliation: summary by reason (ETL)
+====================================================================================================
+            mismatch_reason  n_rows  unreconciled_amount
+                      TOTAL     431            275463.40
+            amount_mismatch      12               585.00
+            missing_payment     165             89809.30
+order_not_in_finance_tables     195            151103.58
+             orphan_payment       8              4580.57
+             payment_failed      42             25722.25
+      returned_not_refunded       9              3662.70
+====================================================================================================
+4b. etl_payment_reconciliation: sample rows (3 per reason)
+====================================================================================================
+ order_id payment_id order_status payment_status  order_amount  amount_paid  unreconciled_amount             mismatch_reason
+ORD000178        NaN    DELIVERED            NaN         378.0       353.00                25.00             amount_mismatch
+ORD000371        NaN    DELIVERED            NaN         980.4       955.40                25.00             amount_mismatch
+ORD000481        NaN    DELIVERED            NaN         102.6         2.60               100.00             amount_mismatch
+ORD000085        NaN    DELIVERED            NaN         424.8          NaN               424.80             missing_payment
+ORD000127        NaN    DELIVERED            NaN         164.0          NaN               164.00             missing_payment
+ORD000466        NaN    DELIVERED            NaN        1356.0          NaN              1356.00             missing_payment
+ORD000020 PAY0002100          NaN        SUCCESS           NaN       168.00               168.00 order_not_in_finance_tables
+ORD000022 PAY0001682          NaN        SUCCESS           NaN       350.55               350.55 order_not_in_finance_tables
+ORD000023 PAY0000395          NaN        SUCCESS           NaN       324.80               324.80 order_not_in_finance_tables
+ORD941071 PAY0002221          NaN        SUCCESS           NaN       618.36               618.36              orphan_payment
+ORD953136 PAY0002222          NaN        SUCCESS           NaN       581.62               581.62              orphan_payment
+ORD966342 PAY0002217          NaN        SUCCESS           NaN       237.84               237.84              orphan_payment
+ORD000057        NaN    DELIVERED            NaN        1346.4          NaN              1346.40              payment_failed
+ORD000090        NaN    DELIVERED            NaN         497.0          NaN               497.00              payment_failed
+ORD000106        NaN    DELIVERED            NaN        2332.8          NaN              2332.80              payment_failed
+ORD000017        NaN     RETURNED            NaN          16.0        16.00                16.00       returned_not_refunded
+ORD000271        NaN     RETURNED            NaN         445.0       445.00               445.00       returned_not_refunded
+ORD000332        NaN     RETURNED            NaN          67.0        67.00                67.00       returned_not_refunded
+====================================================================================================
+4c. mart_payment_reconciliation (ELT) total, for comparison
+====================================================================================================
+ n_rows  unreconciled_amount
+    431             275463.4

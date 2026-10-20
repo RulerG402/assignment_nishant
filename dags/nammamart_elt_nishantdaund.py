@@ -48,7 +48,7 @@ PARAMS = {
                            description="Dataset folder under include/data/ (experiments use their own folder)."),
     "include_increments": Param(True, type="boolean",
                                 description="Also load orders_YYYY-MM-DD_increment.csv files found in the folder."),
-    "as_of": Param("", type="string",
+    "as_of": Param(None, type=["null", "string"], pattern=r"^(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})?$",
                    description="Replay as if run at this IST time (YYYY-MM-DD HH:MM:SS). Blank = the run's own time."),
 }
 
