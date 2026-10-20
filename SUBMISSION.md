@@ -2,7 +2,7 @@
 
 Learner: **nishantdaund** · DAGs: `dags/nammamart_etl_nishantdaund.py`, `dags/nammamart_elt_nishantdaund.py`
 Warehouse: `include/warehouse_nishantdaund.duckdb` · Quarantine: `include/quarantine/nishantdaund/`
-Code: `include/nammamart/` (rules, masking, reconcile, ETL/ELT steps), SQL in `include/sql/`, tests in `tests/nammamart/` (73 passing).
+Code: `include/nammamart/` (rules, masking, reconcile, ETL/ELT steps), SQL in `include/sql/`, tests in `tests/nammamart/` (78 passing).
 
 **How it was verified:** both DAGs ran in Airflow 3.3 (Astro) on this machine, with the happy path, re-run, increment, and experiments 4–10 recorded below. Locally, `scripts/run_local.py` ran the same code without Airflow and the ETL-vs-ELT parity table matched on every metric.
 
@@ -192,6 +192,21 @@ Runs are in the Airflow UI (run ids start `exp`). Experiments used copies in `in
 1. **Personal data lives in raw.** `raw_customers` and the reject tables hold unmasked name, email and phone. Needs strict access control, encryption and retention before go-live (DPDP Act).
 2. **Rules can hide or let through money.** Today 115 September orders (about 5%) are held back because of bad *product* rows, while a consistent price error went through as a Warning (exp 8b). Rule ownership, a severity review and a distribution check are required.
 3. **Single writer and an always-on scheduler.** DuckDB is one file with one writer (I added lock retries), and a laptop that is off at 09:00 means no report and no alert. Production needs an always-on host, a 09:15 deadline alert, and a plan for moving to a multi-user warehouse.
+
+---
+
+## Bonus items
+
+| Bonus | Status | Where |
+|---|---|---|
+| Store-capacity check (daily orders vs `capacity_orders_per_day`) | **Done**, both pipelines | `orders.store_daily_capacity` in `dq_results`: 31 of 462 store-days over capacity in the main run. Store S12 has capacity 0 in the master and is flagged separately (`stores.capacity_positive`). |
+| Failure alert using an Airflow Variable | **Built, partly verified** | `include/nammamart/runtime.py` (`notify_failure`) reads `SLACK_WEBHOOK_URL` with `Variable.get()` and is attached to the run-audit task. With no Variable set it prints the alert to the task log (that path ran during the failure experiments). **A real Slack post was not tested**, because no webhook was available. |
+| SCD Type 2 customer dimension with loyalty-tier history | **Done (ETL)** | `etl_dim_customer_scd2` (`valid_from`, `valid_to`, `is_current`), logic in `include/sql/etl/etl_scd2.sql`, called from `etl.load_star_schema`. 397 current rows after a real Airflow run, unchanged after a second run (idempotent). `tests/nammamart/test_scd2.py` (5 tests) proves a tier change closes the old row and opens a new one, and a repeated run changes nothing. **Limitation:** the September data has no tier changes between runs, so real history only builds up when a customer's tier changes in a later export. ELT has no SCD2 table. |
+| Data-quality trend chart from `dq_results` | **Done** | `scripts/dq_trend_chart.py` produces `docs/dq_trend.png` (below). Needs `pip install matplotlib` locally. |
+
+![DQ trend](docs/dq_trend.png)
+
+How to read the chart: the flat 37% pass rate is expected, because the 65 checks include many that catch the dataset's deliberate defects, so the same ones fail every run. The spike at the low-volume run (experiment 7) is real: with only 50 orders, about 2,200 payments pointed at unknown orders and tripped `payments.order_id_exists`, while other checks had less to fail on.
 
 ---
 

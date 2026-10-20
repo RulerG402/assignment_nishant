@@ -226,6 +226,16 @@ FACT_HASH_COLUMNS = ["order_ts", "customer_id", "store_id", "product_id", "quant
                      "discount_pct", "order_amount", "payment_mode", "order_status", "channel", "delivery_minutes"]
 
 
+def apply_scd2(con, run_id: str, run_ts) -> dict:
+    """Bonus: keep loyalty-tier history in etl_dim_customer_scd2 from the current etl_dim_customer snapshot."""
+    con.execute("CREATE OR REPLACE TEMP TABLE scd2_ctx AS SELECT ?::VARCHAR AS run_id, ?::TIMESTAMP AS run_ts",
+                [run_id, run_ts])
+    warehouse.run_sql_file(con, config.SQL_DIR / "etl" / "etl_scd2.sql")
+    versions, current = con.execute(
+        "SELECT count(*), count(*) FILTER (WHERE is_current) FROM etl_dim_customer_scd2").fetchone()
+    return {"scd2_versions": int(versions), "scd2_current": int(current)}
+
+
 def load_star_schema(transformed: dict, run_id: str) -> dict:
     """Dimensions are full snapshots (replace); the fact is merged on order_id (upsert)."""
     hash_expr = "md5(concat_ws('|', " + ", ".join(f"coalesce(CAST({c} AS VARCHAR), '')" for c in FACT_HASH_COLUMNS) + "))"
@@ -236,6 +246,7 @@ def load_star_schema(transformed: dict, run_id: str) -> dict:
             con.execute(f"DELETE FROM {dim}")
             con.execute(f"INSERT INTO {dim} BY NAME SELECT * FROM read_csv(?, header=true, all_varchar=true)",
                         [transformed[dim]["path"]])
+        scd2 = apply_scd2(con, run_id, warehouse.now_ist())
         con.execute("CREATE OR REPLACE TEMP TABLE fact_src AS SELECT * FROM etl_fact_orders LIMIT 0")
         con.execute("INSERT INTO fact_src BY NAME SELECT * FROM read_csv(?, header=true, all_varchar=true)",
                     [transformed["etl_fact_orders"]["path"]])
@@ -255,7 +266,7 @@ def load_star_schema(transformed: dict, run_id: str) -> dict:
         con.execute("COMMIT")
         fact_rows = con.execute("SELECT count(*) FROM etl_fact_orders").fetchone()[0]
     result = {"rows_merged": transformed["etl_fact_orders"]["rows"], "rows_inserted": int(inserted),
-              "rows_updated": int(updated), "fact_rows_after": int(fact_rows)}
+              "rows_updated": int(updated), "fact_rows_after": int(fact_rows), **scd2}
     print(f"[Load] {result}")
     return result
 

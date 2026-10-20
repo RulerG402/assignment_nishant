@@ -74,3 +74,22 @@ CREATE TABLE IF NOT EXISTS etl_quarantine_log (
     raw_record      VARCHAR,               -- the row exactly as received, as JSON (restricted: may hold PII)
     quarantined_at  TIMESTAMP
 );
+
+-- Bonus: Type 2 history of the customer dimension. One row per customer per
+-- distinct loyalty tier; exactly one row per customer has is_current = true.
+CREATE TABLE IF NOT EXISTS etl_dim_customer_scd2 (
+    customer_id           VARCHAR,
+    customer_name_masked  VARCHAR,
+    email_masked          VARCHAR,
+    phone_masked          VARCHAR,
+    city                  VARCHAR,
+    area                  VARCHAR,
+    pincode               VARCHAR,
+    signup_date           DATE,
+    loyalty_tier          VARCHAR,
+    is_active             BOOLEAN,
+    valid_from            TIMESTAMP,   -- first version: signup date; later versions: the run that saw the change
+    valid_to              TIMESTAMP,   -- NULL while current
+    is_current            BOOLEAN,
+    _loaded_run_id        VARCHAR
+);
