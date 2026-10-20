@@ -1,0 +1,24 @@
+.git
+.env
+.DS_Store
+airflow_settings.yaml
+__pycache__/
+astro
+.venv
+.astro/standalone/
+airflow-webserver.pid
+webserver_config.py
+airflow.cfg
+airflow.db
+.astro/*.local.yml
+.astro/*.local.yaml
+test_api.py
+
+# NammaMart (nishantdaund): generated at run time. Quarantine files and the
+# warehouse hold rows exactly as received, including unmasked customer PII.
+include/warehouse_*.duckdb
+include/warehouse_*.duckdb.wal
+include/quarantine/nishantdaund/
+include/tmp/
+.pytest_cache/
+include/data/experiments/
