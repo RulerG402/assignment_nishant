@@ -195,11 +195,32 @@ Runs are in the Airflow UI (run ids start `exp`). Experiments used copies in `in
 
 ---
 
+## Screenshots
+
+All images are in `docs/screenshots/`; the text behind the query results is in `docs/evidence_queries.txt`.
+
+| Evidence | File |
+|---|---|
+| ETL DAG, Graph view (green run) | ![ETL graph](docs/screenshots/etl_graph_view.png) |
+| ELT DAG, Graph view (green run) | ![ELT graph](docs/screenshots/elt_graph_view.png) |
+| Schedule `0 9 * * 1-6` and next run, both DAGs | ![Schedule](docs/screenshots/schedule_dag_list.png) |
+| One quarantine file (`orders_failed_<run>.csv`, with `failure_reason`) | ![Quarantine](docs/screenshots/quarantine_file.png) |
+| `pipeline_runs` (run audit, both DAGs) | ![pipeline_runs](docs/screenshots/pipeline_runs.png) |
+| `dq_results` summary, ETL | ![dq ETL summary](docs/screenshots/dq_results_summary_etl.png) |
+| `dq_results` non-passing checks, ETL | ![dq ETL checks](docs/screenshots/dq_results_checks_etl.png) |
+| `dq_results` summary, ELT | ![dq ELT summary](docs/screenshots/dq_results_summary_elt.png) |
+| `dq_results` non-passing checks, ELT | ![dq ELT checks](docs/screenshots/dq_results_checks_elt.png) |
+| Payment reconciliation (ETL summary and samples; ELT total matches) | ![reconciliation](docs/screenshots/payment_reconciliation.png) |
+
+Note: `pipeline_runs` also shows two failed runs (`failed_step = start_run`). Those came from an optional `as_of` trigger parameter that was fixed afterwards; they show the run audit recording a failure.
+
+---
+
 ## Submission checklist
 
 - [x] Both DAGs parse (`airflow dags list-import-errors`: none) and ran green.
 - [x] Helper code in `include/nammamart/`, SQL in `include/sql/`.
 - [x] Answers to all six business questions as SQL plus results from both pipelines (`docs/business_answers_output.txt`).
 - [x] No secrets or unmasked customer data in the repo outside `include/data/` (warehouse, quarantine and experiment copies are git-ignored).
-- [ ] **Screenshots to take** at http://localhost:8080: both DAGs in Graph view; each DAG's schedule showing `0 9 * * 1-6` and next run 03:30 UTC; one quarantine CSV from `include/quarantine/nishantdaund/`; query results from `dq_results`, `pipeline_runs`, `etl_payment_reconciliation`.
-- [ ] GitHub link.
+- [x] Screenshots (see the Screenshots section above).
+- [x] GitHub repository: https://github.com/RulerG402/assignment_nishant
